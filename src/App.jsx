@@ -1,5 +1,4 @@
 import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
@@ -16,7 +15,7 @@ function App() {
         <div className="col-10 p-0">
 
           {/* Top Navbar */}
-          <Navbar />
+          <h2>Student DashBoard</h2>
 
           {/* Page Content */}
           <div className="p-4">
