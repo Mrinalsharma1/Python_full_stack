@@ -1,10 +1,14 @@
 from sqlalchemy import create_engine
-from sqlalchemy import sessionmaker, declerative_base
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "mysql+pymysql://root:password@localhost/student_db"
+DATABASE_URL = "mysql+pymysql://root:root@localhost/studentdb"
 
 engine = create_engine(DATABASE_URL)
 
-sessionLocal = sessionmaker(bind = engine)
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
-Base = declerative_base()
+Base = declarative_base()

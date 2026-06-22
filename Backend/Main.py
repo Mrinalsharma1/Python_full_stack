@@ -6,14 +6,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# Create tables
 Base.metadata.create_all(bind=engine)
 
-app.include_router(router, prefix="/student")
+# Include routes
+app.include_router(router, prefix="/students", tags=["Students"])
 
+# CORS (IMPORTANT for React)
 app.add_middleware(
     CORSMiddleware,
-    allow_origin=["*"],
-    allow_credential=True,
+    allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
-    allow_header=["*"],
+    allow_headers=["*"],
 )

@@ -1,21 +1,31 @@
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from fastapi import Depends
-from database import sessionLocal
+from database import SessionLocal
+from db_models import StudentDB
+from models import Student
 
+router = APIRouter()
+
+# DB Dependency
 def get_db():
-    db = sessionLocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
-# Create Student API
 
+# ✅ CREATE STUDENT API
 @router.post("/")
-def create_student(student:Student,db:Session = Depends(get_db)):
-    new_studnet = StudentDB(**student.dict())
-    db.add(new_studnet)
-    db.commit()
-    db.refresh(new_studnet)
+def create_student(student: Student, db: Session = Depends(get_db)):
     
-    return {"message": "Student added", "data": new_studnet}
+    new_student = StudentDB(**student.dict())
+
+    db.add(new_student)
+    db.commit()
+    db.refresh(new_student)
+
+    return {
+        "message": "Student created successfully",
+        "data": new_student
+    }
