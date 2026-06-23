@@ -29,3 +29,49 @@ def create_student(student: Student, db: Session = Depends(get_db)):
         "message": "Student created successfully",
         "data": new_student
     }
+
+# ✅ GET ALL STUDENTS
+@router.get("/")
+def get_students(db: Session = Depends(get_db)):
+    students = db.query(StudentDB).all()
+    return {"data": students}
+
+# ✅ GET SINGLE STUDENT
+@router.get("/{student_id}")
+def get_student(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(StudentDB).filter(StudentDB.id == student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    return {"data": student}
+
+
+# ✅ UPDATE STUDENT
+@router.put("/{student_id}")
+def update_student(student_id: int, updated_data: Student, db: Session = Depends(get_db)):
+    student = db.query(StudentDB).filter(StudentDB.id == student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    for key, value in updated_data.dict().items():
+        setattr(student, key, value)
+
+    db.commit()
+    db.refresh(student)
+
+    return {"message": "Student updated", "data": student}
+
+# ✅ DELETE STUDENT
+@router.delete("/{student_id}")
+def delete_student(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(StudentDB).filter(StudentDB.id == student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    db.delete(student)
+    db.commit()
+
+    return {"message": "Student deleted"}

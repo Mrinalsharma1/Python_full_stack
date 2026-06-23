@@ -4,29 +4,34 @@ import { useNavigate } from "react-router-dom";
 function Home() {
 
     const [student, setStudent] = useState([]);
-    const [serach, setSerach] = useState(" ");
+    const [search, setSearch] = useState("");
+
 
     const navigate = useNavigate();
 
-    let url = "";
+    let url = "http://127.0.0.1:8000/students/";
+
+
     useEffect(() => {
         fetch(url)
             .then(res => res.json())
-            .then(data => setStudent(data))
+            .then(data => setStudent(data.data))
             .catch(err => console.log(err));
     }, [])
 
-    let deleteUrl = "";
+
     const handleDelete = (id) => {
-        fetch(`deleteUrl/${id}`, {
+        fetch(`http://127.0.0.1:8000/students/${id}`, {
             method: "DELETE",
         })
             .then(() => {
-                setStudent(student.filter(s => s.id != id));
+                setStudent(student.filter(s => s.id !== id));
             });
     };
 
-    const filteredStudent = student.filter(s => s.name.toLowerCase().include(search.toLowerCase()));
+    const filteredStudent = student.filter(s =>
+        s.name.toLowerCase().includes(search.toLowerCase())
+    );
 
 
     return (
@@ -60,13 +65,16 @@ function Home() {
                 </div>
 
                 {/* Search */}
-                <input
-                    type="text"
-                    className="form-control mb-3"
-                    placeholder="Search student..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+                <div className="input-group mb-3">
+                    <span className="input-group-text">🔍</span>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search student..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
 
                 <div className='table-responsive'>
                     <table className='table table-bordered table-hover text-center'>
@@ -74,8 +82,9 @@ function Home() {
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Class</th>
-                                <th>Mobile</th>
+                                <th>Course</th>
+                                <th>Phone</th>
+                                <th>Gender</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -83,9 +92,11 @@ function Home() {
                             {
                                 filteredStudent.map(student => (
                                     <tr key={student.id}>
+                                        <td>{student.id}</td>
                                         <td>{student.name}</td>
-                                        <td>{student.class}</td>
-                                        <td>{student.mobile}</td>
+                                        <td>{student.course}</td>
+                                        <td>{student.phone}</td>
+                                        <td>{student.gender}</td>
                                         <td>
                                             <button
                                                 className='btn btn-danger btn-sm me-2'

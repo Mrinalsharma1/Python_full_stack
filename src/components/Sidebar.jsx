@@ -16,10 +16,6 @@ function Sidebar() {
                 </li>
 
                 <li className='nav-item'>
-                    <Link className='nav-link text-white' to="/view">View Student</Link>
-                </li>
-
-                <li className='nav-item'>
                     <Link className='nav-link text-white' to="/edit/1">Edit Student</Link>
                 </li>
 
