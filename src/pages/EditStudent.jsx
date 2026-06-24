@@ -8,19 +8,18 @@ function EditStudent() {
 
     const [student, setStudent] = useState({
         name: '',
-        email: '',
-        mobile: '',
-        className: '',
-        address: '',
         gender: '',
-        age: ''
+        email: '',
+        phone: '',
+        course: '',
+        address: ''
     });
 
-    let editUrl = "";
+    let editUrl = "http://127.0.0.1:8000/students";
     useEffect(() => {
         fetch(`editUrl/${id}`)
             .then(res => res.json())
-            .then(data => setStudent(data))
+            .then(data => setStudent(data.data))
     }, [id])
 
     const handleChange = (e) => {
@@ -34,7 +33,7 @@ function EditStudent() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch(`editUrl/${id}`, {
+        fetch(`editsUrl/${id}`, {
             method: PUT,
             headers: {
                 "Content-Type": "application/json"
@@ -72,19 +71,13 @@ function EditStudent() {
                             {/* Mobile */}
                             <div className="col-md-6 mb-3">
                                 <label>Mobile</label>
-                                <input type="text" name="mobile" className="form-control" value={student.mobile} onChange={handleChange} required />
-                            </div>
-
-                            {/* Class */}
-                            <div className="col-md-6 mb-3">
-                                <label>Class</label>
-                                <input type="text" name="className" className="form-control" value={student.class} onChange={handleChange} required />
+                                <input type="text" name="mobile" className="form-control" value={student.phone} onChange={handleChange} required />
                             </div>
 
                             {/* Age */}
                             <div className="col-md-6 mb-3">
-                                <label>Age</label>
-                                <input type="number" name="age" className="form-control" value={student.age} onChange={handleChange} required />
+                                <label>Course</label>
+                                <input type="number" name="course" className="form-control" value={student.course} onChange={handleChange} required />
                             </div>
 
                             {/* Gender */}

@@ -5,6 +5,8 @@ function Home() {
 
     const [student, setStudent] = useState([]);
     const [search, setSearch] = useState("");
+    const [totalCount, setTotalCount] = useState(0);
+    const [todayCount, setTodayCount] = useState(0);
 
 
     const navigate = useNavigate();
@@ -29,6 +31,17 @@ function Home() {
             });
     };
 
+    useEffect(() => {
+        fetch("http://127.0.0.1:8000/students/count")
+            .then(res => res.json())
+            .then(data => setTotalCount(data.total_students));
+
+        fetch("http://127.0.0.1:8000/students/today-count")
+            .then(res => res.json())
+            .then(data => setTodayCount(data.today_students));
+    }, [])
+
+
     const filteredStudent = student.filter(s =>
         s.name.toLowerCase().includes(search.toLowerCase())
     );
@@ -43,7 +56,7 @@ function Home() {
                     <div className='card text-center shadow-sm'>
                         <div className='card-body'>
                             <h5 className='card-title'>Student Count</h5>
-                            <h3>100</h3>
+                            <h3>{totalCount}</h3>
                         </div>
                     </div>
                 </div>
@@ -52,7 +65,7 @@ function Home() {
                     <div className='card text-center shadow-sm'>
                         <div className='card-body'>
                             <h5 className='card-title'>Today Enrolled</h5>
-                            <h3>10</h3>
+                            <h3>{todayCount}</h3>
                         </div>
                     </div>
                 </div>

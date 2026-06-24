@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from db_models import StudentDB
 from models import Student
+from datetime import datetime, date
 
 router = APIRouter()
 
@@ -14,6 +15,22 @@ def get_db():
     finally:
         db.close()
 
+# ✅ Count STUDENT
+@router.get("/count")
+def get_student_count(db: Session = Depends(get_db)):
+    count = db.query(StudentDB).count()
+    return {"total_students": count}
+
+# ✅ Count EACH DAYS
+@router.get("/today-count")
+def get_today_students(db: Session = Depends(get_db)):
+    today = date.today()
+
+    count = db.query(StudentDB).filter(
+        StudentDB.created_at >= today
+    ).count()
+
+    return {"today_students": count}
 
 # ✅ CREATE STUDENT API
 @router.post("/")
@@ -75,3 +92,4 @@ def delete_student(student_id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "Student deleted"}
+

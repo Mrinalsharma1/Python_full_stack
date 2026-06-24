@@ -7,12 +7,11 @@ function ViewStudent() {
 
     useEffect(() => {
         // 🔥 Call API to fetch student by ID
-        fetch(`http://localhost:8080/api/students/${id}`)
+        fetch(`http://127.0.0.1:8000/students/${id}`)
             .then((res) => res.json())
-            .then((data) => setStudent(data))
+            .then((data) => setStudent(data.data))
             .catch((err) => console.log(err));
     }, [id]);
-
     return (
         <div className="container mt-4">
             <div className="card shadow">

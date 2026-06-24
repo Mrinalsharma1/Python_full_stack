@@ -1,16 +1,17 @@
 import React from 'react'
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function AddStudent() {
+    const navigate = useNavigate();
 
     const [student, setStudent] = useState({
         name: '',
-        email: '',
-        mobile: '',
-        className: '',
-        address: '',
         gender: '',
-        age: ''
+        email: '',
+        phone: '',
+        course: '',
+        address: ''
     });
 
     const handleChange = (e) => {
@@ -25,7 +26,7 @@ function AddStudent() {
 
         console.log("student data is", student);
 
-        let url = "";
+        let url = "http://127.0.0.1:8000/students/";
 
         try {
             const response = await fetch(url, {
@@ -38,9 +39,11 @@ function AddStudent() {
 
             const data = await response.json();
 
-            console.log("Response is", data);
+            // console.log("Response is", data);
 
             alert("Student is create Successfully");
+
+            navigate("/");
 
 
         } catch (error) {
@@ -62,47 +65,43 @@ function AddStudent() {
                             {/* Name */}
                             <div className="col-md-6 mb-3">
                                 <label>Name</label>
-                                <input type="text" name="name" className="form-control" onChange={handleChange} />
-                            </div>
-
-                            {/* Email sbsh */}
-                            <div className="col-md-6 mb-3">
-                                <label>Email</label>
-                                <input type="email" name="email" className="form-control" onChange={handleChange} />
-                            </div>
-
-                            {/* Mobile */}
-                            <div className="col-md-6 mb-3">
-                                <label>Mobile</label>
-                                <input type="text" name="mobile" className="form-control" onChange={handleChange} />
-                            </div>
-
-                            {/* Class */}
-                            <div className="col-md-6 mb-3">
-                                <label>Class</label>
-                                <input type="text" name="className" className="form-control" onChange={handleChange} />
-                            </div>
-
-                            {/* Age */}
-                            <div className="col-md-6 mb-3">
-                                <label>Age</label>
-                                <input type="number" name="age" className="form-control" onChange={handleChange} />
+                                <input type="text" name="name" className="form-control" onChange={handleChange} required />
                             </div>
 
                             {/* Gender */}
                             <div className="col-md-6 mb-3">
                                 <label>Gender</label>
-                                <select name="gender" className="form-control" onChange={handleChange}>
+                                <select name="gender" className="form-control" onChange={handleChange} required>
                                     <option value="">Select</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
                             </div>
 
+                            {/* Email sbsh */}
+                            <div className="col-md-6 mb-3">
+                                <label>Email</label>
+                                <input type="email" name="email" className="form-control" onChange={handleChange} required />
+                            </div>
+
+                            {/* Mobile */}
+                            <div className="col-md-6 mb-3">
+                                <label>Mobile</label>
+                                <input type="text" name="phone" className="form-control" onChange={handleChange} required />
+                            </div>
+
+                            {/* Age */}
+                            <div className="col-md-6 mb-3">
+                                <label>course</label>
+                                <input type="text" name="course" className="form-control" onChange={handleChange} required />
+                            </div>
+
+
+
                             {/* Address */}
                             <div className="col-12 mb-3">
                                 <label>Address</label>
-                                <textarea name="address" className="form-control" onChange={handleChange}></textarea>
+                                <textarea name="address" className="form-control" onChange={handleChange} required></textarea>
                             </div>
 
                         </div>
