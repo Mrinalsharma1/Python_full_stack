@@ -17,7 +17,7 @@ function EditStudent() {
 
     let editUrl = "http://127.0.0.1:8000/students";
     useEffect(() => {
-        fetch(`editUrl/${id}`)
+        fetch(`${editUrl}/${id}`)
             .then(res => res.json())
             .then(data => setStudent(data.data))
     }, [id])
@@ -33,15 +33,15 @@ function EditStudent() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch(`editsUrl/${id}`, {
-            method: PUT,
+        fetch(`${editUrl}/${id}`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(student)
         }).then(() => {
             alert("Student Update!");
-            navigate("/home");
+            navigate("/");
         });
     };
 
@@ -77,13 +77,15 @@ function EditStudent() {
                             {/* Age */}
                             <div className="col-md-6 mb-3">
                                 <label>Course</label>
-                                <input type="number" name="course" className="form-control" value={student.course} onChange={handleChange} required />
+                                <input type="text" name="course" className="form-control"
+                                    value={student.course} onChange={handleChange} />
                             </div>
 
                             {/* Gender */}
                             <div className="col-md-6 mb-3">
                                 <label>Gender</label>
-                                <select name="gender" className="form-control" value={student.gender} onChange={handleChange} required>
+                                <select name="gender" className="form-control"
+                                    value={student.gender} onChange={handleChange}>
                                     <option value="">Select</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>

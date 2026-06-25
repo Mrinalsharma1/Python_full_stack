@@ -7,7 +7,8 @@ function ViewStudent() {
 
     useEffect(() => {
         // 🔥 Call API to fetch student by ID
-        fetch(`http://127.0.0.1:8000/students/${id}`)
+        let viewapi = "http://127.0.0.1:8000";
+        fetch(`${viewapi}/students/${id}`)
             .then((res) => res.json())
             .then((data) => setStudent(data.data))
             .catch((err) => console.log(err));
